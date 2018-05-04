@@ -4,28 +4,32 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %TODO: add a comment here
-% - what this funciton/program is useful for in one or two sentences
+% - what is this program useful for? (in one or two sentences)
 % - what are the inputs
 % - what are the outputs
 
 clear; % clearing variables from previous runs
 
 % options
-show_debug_imges = false;
+show_debug_imges = true;
 
-% set input and output locations
+% set input and output locations and clean files from old runs
 input_dir = './input/DRIVE_database/';
+rmdir(input_dir, 's'); mkdir input_dir;
 output_dir = './output/';
-
+rmdir(output_dir, 's'); mkdir output_dir;
 files = dir(strcat(input_dir, '*.tif'));
-% loop over all tif files in the input folder
-results =fopen(strcat(output_dir, 'results.csv'), 'w' );
 %opens (or create if it did not exist) a result file in output folder
+results =fopen(strcat(output_dir, 'results.csv'), 'w' );
+
+% loop over all tif files in the input folder
 for file = files'
-    % load the image
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % load the image and its corresponding mask
     img = imread(strcat(input_dir,file.name));
     if show_debug_imges
-        figure, imshow(img), title('Red channel');
+        figure, imshow(img), title('Original image');
     end
     % filename = split(file.name,'.'); <- works for earlier MATLAB versions
     filename = strsplit(file.name,'.');
@@ -36,27 +40,36 @@ for file = files'
     %create the name of mask corresponding to current image
     mask = imread(MaskName);
     
-    %%%% Changing to red color
-    red = img(:,:,1); % Red channel
-    a = zeros(size(img, 1), size(img, 2));
-    just_red = cat(3, red, a, a);
-    if show_debug_imges
-        figure, imshow(just_red), title('Red channel')
-    end
-    %imwrite(just_red, strcat(output_dir,file.name(1:end-4),'_red.jpg'));
     
-    %%%% Changing to green
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Changing to red color
+    just_red = convert_to_red(img, show_debug_imges);
+    
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Changing to green
+    % TODO: create a separate function convert_to_green.m  (copy what has
+    % been done for convert_to_red.m)
     green = img(:,:,2); % Green channel
     just_green = cat(3, a, green, a);
     if show_debug_imges
         figure, imshow(just_green), title('Green channel')
+        imwrite(just_red, strcat(output_dir,file.name(1:end-4),'_green.jpg'));
     end
     
-    % convert the image to black and white
+    
+    
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Quantify vascular surfice
+    
+    % convert the images to black and white
     grayscale = rgb2gray(img);
     imgBW=imbinarize(grayscale,'adaptive','sensitivity',0.63);
-    % store the converted image to disk for debugging
-    imwrite(imgBW, strcat(output_dir,file.name(1:end-4),'_bw.jpg'));
+    if show_debug_imges
+        figure, imshow(imgBW), title('BW image')
+        imwrite(imgBW, strcat(output_dir,file.name(1:end-4),'_bw.jpg'));
+    end
     
     % counters for total number of white and black pixels in the image
     nWhite_total = 0; % set to 0 before we begin
