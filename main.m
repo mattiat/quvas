@@ -1,3 +1,7 @@
+clear; % clearing variables from previous runs
+
+% options
+show_debug_imgs = false;
 
 % set input and output locations
 input_dir = './input/DRIVE_database/';
@@ -10,6 +14,9 @@ results =fopen(strcat(output_dir, 'results.csv'), 'w' );
 for file = files'
     % load the image
     img = imread(strcat(input_dir,file.name));
+    if show_debug_imgs
+        figure, imshow(img), title('Red channel');
+    end
     % filename = split(file.name,'.'); <- works for earlier MATLAB versions
     filename = strsplit(file.name,'.');
     % splits the filename at the dot
@@ -19,15 +26,24 @@ for file = files'
     %create the name of mask corresponding to current image
     mask = imread(MaskName);
     
-    % convert the image to red color
-    red = img(:,:,1);
+    %%%% Changing to red color
+    red = img(:,:,1); % Red channel
     a = zeros(size(img, 1), size(img, 2));
     just_red = cat(3, red, a, a);
-    % store the converted image to disk for debugging
-    imwrite(just_red, strcat(output_dir,file.name(1:end-4),'_red.jpg'));
+    if show_debug_imgs
+        figure, imshow(just_red), title('Red channel')
+    end
+    %imwrite(just_red, strcat(output_dir,file.name(1:end-4),'_red.jpg'));
+    
+    %%%% Changing to green
+    green = img(:,:,2); % Green channel
+    just_green = cat(3, a, green, a);
+    if show_debug_imgs
+        figure, imshow(just_green), title('Green channel')
+    end
     
     % convert the image to black and white
-    grayscale = rgb2gray(just_red);
+    grayscale = rgb2gray(img);
     imgBW=imbinarize(grayscale,'adaptive','sensitivity',0.63);
     % store the converted image to disk for debugging
     imwrite(imgBW, strcat(output_dir,file.name(1:end-4),'_bw.jpg'));
