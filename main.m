@@ -1,7 +1,17 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% QUVAS QUantifier of Vascular Surfice
+% by Fran?ois Sute, Luca Soldin, Gilles Aeschliman, Loris Sonno
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%TODO: add a comment here
+% - what this funciton/program is useful for in one or two sentences
+% - what are the inputs
+% - what are the outputs
+
 clear; % clearing variables from previous runs
 
 % options
-show_debug_imgs = false;
+show_debug_imges = false;
 
 % set input and output locations
 input_dir = './input/DRIVE_database/';
@@ -14,7 +24,7 @@ results =fopen(strcat(output_dir, 'results.csv'), 'w' );
 for file = files'
     % load the image
     img = imread(strcat(input_dir,file.name));
-    if show_debug_imgs
+    if show_debug_imges
         figure, imshow(img), title('Red channel');
     end
     % filename = split(file.name,'.'); <- works for earlier MATLAB versions
@@ -30,7 +40,7 @@ for file = files'
     red = img(:,:,1); % Red channel
     a = zeros(size(img, 1), size(img, 2));
     just_red = cat(3, red, a, a);
-    if show_debug_imgs
+    if show_debug_imges
         figure, imshow(just_red), title('Red channel')
     end
     %imwrite(just_red, strcat(output_dir,file.name(1:end-4),'_red.jpg'));
@@ -38,7 +48,7 @@ for file = files'
     %%%% Changing to green
     green = img(:,:,2); % Green channel
     just_green = cat(3, a, green, a);
-    if show_debug_imgs
+    if show_debug_imges
         figure, imshow(just_green), title('Green channel')
     end
     
