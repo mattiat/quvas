@@ -1,10 +1,16 @@
-%TODO: add a comment here
-% - what is this function useful for? (in one or two sentences)
-% - what are the inputs
-% - what are the outputs
+% Function to extract only the green channel
+% Used to see if the blood vessels are more visible by extracting only the
+% green color of the retina images, as they contain a lot of green
+% - Inputs : retina images
+% - Outputs : retina images with only the green color
 
-function just_green = convert_to_green(img, show_debug_imges)
+function img_green = convert_to_green(img, show_debug_imges)
 
-%TODO
+green_channel = img(:,:,2); % Green chanel
+b = zeros(size(img, 1), size(img, 2);
+img_green = cat(3, green_channel, a, a);
+if show_debug_images
+    figure, imshow(img_green), title('Green channel');
+end
 
 end

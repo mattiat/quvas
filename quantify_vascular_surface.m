@@ -1,7 +1,8 @@
-%TODO: add a comment here
-% - what is this function useful for? (in one or two sentences)
-% - what are the inputs
-% - what are the outputs
+% Function to calculate the size (in pixels) of the blood vessels of
+% different retina images by turning them into black and white
+% - Inputs : retina images
+% - Outputs : CSV file with the number of white and black pixels for each
+% retina image
 
 function quantify_vascular_surface(img, img_name, mask, output_dir, debug)
 

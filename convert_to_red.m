@@ -1,7 +1,8 @@
-%TODO: add a comment here
-% - what is this function useful for? (in one or two sentences)
-% - what are the inputs
-% - what are the outputs
+% Function to extract only the red channel
+% Used because the retina images contain a lot of red and then allows us to
+% have better and more precise images to analyse the blood vessels
+% - Inputs : retina images
+% - Outputs : retina images with only the red color
 
 function red_img = convert_to_red(img, show_debug_imges)
 

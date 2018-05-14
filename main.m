@@ -1,12 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % QUVAS QUantifier of Vascular Surfice
-% by Fran?ois Sute, Luca Soldin, Gilles Aeschliman, Loris Sonno
+% by Francois Sutter, Luca Soldini, Gilles Aeschlimann, Loris Sonno
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%TODO: add a comment here
-% - what is this program useful for? (in one or two sentences)
-% - what are the inputs
-% - what are the outputs
+% This program is used to observe the blood vessels of retina images and
+% calculate their size. These values will maybe help us to determinate
+% pathologies in some patients, like hypertension for example.
+% Inputs : retina images from patients (left and right)
+% Outputs : CSV file containing the values of the size of the blood vessels
+% of each different patient
 
 clear; % clearing variables from previous runs
 
@@ -46,19 +48,17 @@ for file = files'
     
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Changing to green
-    % TODO: create a separate function convert_to_green.m  (copy what has
-    % been done for convert_to_red.m)
-    green_channel = img(:,:,2); % Green channel
-    a = zeros(size(img, 1), size(img, 2));
-    img_green = cat(3, a, green_channel, a);
-    if debug
-        figure, imshow(img_green), title('Green channel');
-    end
+    % Changing to green color
+    img_green = convert_to_green(img, debug);
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Quantify vascular surfice
+    % Quantify vascular surface
     quantify_vascular_surface(img, img_name, mask, output_dir, debug);
     
-    %TODO add function invocations to also process the red and green images
+    % Quantify vascular surface of red colored images
+    quantify_vascular_surface(img_red, img_name, mask, output_dir, debug);
+    
+    % Quantify vascular surface of green colored images
+    quantify_vascular_surface(img_green, img_name, mask, output_dir, debug);
+    
 end
