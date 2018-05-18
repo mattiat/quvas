@@ -21,11 +21,10 @@ input_dir_pics = strcat(input_dir, 'DRIVE_database_sample/');
 output_dir = './output/';
 rmdir(output_dir, 's'); mkdir(output_dir);
 output_dir_original = strcat(output_dir, 'original/');
-mkdir(output_dir_original);
+rmdir(output_dir, 's'); mkdir(output_dir);
 output_dir_green = strcat(output_dir, 'green/');
-mkdir(output_dir_green);
+rmdir(output_dir, 's'); mkdir(output_dir);
 output_dir_red = strcat(output_dir, 'red/');
-mkdir(output_dir_red);
 
 % loop over all tif files in the input folder
 files = dir(strcat(input_dir_pics, '*.tif'));
@@ -56,12 +55,12 @@ for file = files'
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Quantify vascular surface
-    quantify_vascular_surface(img, img_name, mask, output_dir_original, debug);
+    quantify_vascular_surface(img, img_name, mask, output_dir, debug);
     
     % Quantify vascular surface of red colored images
-    quantify_vascular_surface(img_red, img_name, mask, output_dir_red, debug);
+    quantify_vascular_surface(img_red, img_name, mask, output_dir, debug);
     
     % Quantify vascular surface of green colored images
-    quantify_vascular_surface(img_green, img_name, mask, output_dir_green, debug);
+    quantify_vascular_surface(img_green, img_name, mask, output_dir, debug);
     
 end
