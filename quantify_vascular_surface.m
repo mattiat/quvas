@@ -58,7 +58,8 @@ if debug
 end
 true_Black_total = nBlack_total-nBlack_mask;
 %prints the file name and pixel counts to a new line in the csv file
-fprintf(results, '%s,%d,%d\n', img_name ,true_Black_total, nWhite_total);
+fprintf(results, '%s,%d,%d,%d\n', ...
+    img_name ,true_Black_total, nWhite_total, nWhite_total/true_Black_total);
 
 fclose(results); % close file stream
 
